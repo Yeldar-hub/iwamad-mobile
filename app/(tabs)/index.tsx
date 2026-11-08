@@ -1,41 +1,47 @@
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
   Pressable,
-  StyleSheet,
   StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
+import { Link } from 'expo-router';
 
-export default function App() {
+export default function HomeScreen() {
   const [likes, setLikes] = useState(0);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <Text style={styles.title}>
-        Hello, World!
-      </Text>
-
-      <Text style={styles.name}>
-        Eldar Ashimov
-      </Text>
-
-      <Text style={styles.counter}>
-        Likes: {likes}
-      </Text>
+      <Text style={styles.title}>Hello, World!</Text>
+      <Text style={styles.name}>Eldar Ashimov</Text>
+      <Text style={styles.counter}>Likes: {likes}</Text>
 
       <Pressable
-        style={styles.button}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.pressed,
+        ]}
         onPress={() => setLikes((previous) => previous + 1)}
         accessibilityRole="button"
         accessibilityLabel="Like"
       >
-        <Text style={styles.buttonText}>
-          Like
-        </Text>
+        <Text style={styles.buttonText}>Like</Text>
       </Pressable>
+
+      <Link href="/events" asChild>
+        <Pressable
+          style={({ pressed }) => [
+            styles.eventsButton,
+            pressed && styles.pressed,
+          ]}
+          accessibilityRole="button"
+        >
+          <Text style={styles.buttonText}>Events</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
@@ -70,10 +76,24 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 44,
     borderRadius: 12,
+    minWidth: 160,
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  eventsButton: {
+    backgroundColor: '#16A34A',
+    paddingVertical: 14,
+    paddingHorizontal: 44,
+    borderRadius: 12,
+    minWidth: 160,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });
