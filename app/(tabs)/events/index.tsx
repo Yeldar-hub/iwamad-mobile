@@ -12,12 +12,13 @@ import { useRouter } from "expo-router";
 
 import EventRow from "../../../src/components/EventRow";
 import { useEvents } from "../../../src/hooks/useEvents";
+import { useSavedIds } from "../../../src/hooks/useSavedIds";
 
 export default function EventsScreen() {
   const router = useRouter();
 
   const [search, setSearch] = useState("");
-  const [savedIds, setSavedIds] = useState<number[]>([]);
+  const { savedIds, toggleSaved } = useSavedIds();
 
   const {
     data: events = [],
@@ -27,14 +28,6 @@ export default function EventsScreen() {
     error,
     refetch,
   } = useEvents();
-
-  const toggleSaved = (id: number) => {
-    setSavedIds((previous) =>
-      previous.includes(id)
-        ? previous.filter((savedId) => savedId !== id)
-        : [...previous, id]
-    );
-  };
 
   const filteredEvents = events.filter((event) =>
     event.title.toLowerCase().includes(search.toLowerCase())
@@ -74,7 +67,7 @@ export default function EventsScreen() {
       <Text style={styles.heading}>Upcoming Events</Text>
 
       <Text style={styles.hint}>
-        Long-press an event to save it. Saved: {savedIds.length}
+        Swipe or long-press an event to save it. Saved: {savedIds.length}
       </Text>
 
       <TextInput
@@ -96,7 +89,7 @@ export default function EventsScreen() {
             event={item}
             saved={savedIds.includes(item.id)}
             onPress={() => router.push(`/events/${item.id}`)}
-            onLongPress={() => toggleSaved(item.id)}
+            onToggleSaved={() => toggleSaved(item.id)}
           />
         )}
         ListEmptyComponent={

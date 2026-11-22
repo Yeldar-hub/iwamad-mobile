@@ -9,6 +9,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 
 import { useEvents } from "../../src/hooks/useEvents";
+import { HolidayNote } from "../../src/components/HolidayNote";
 
 export default function EventDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -70,6 +71,7 @@ export default function EventDetailsScreen() {
       <View style={styles.card}>
         <Text style={styles.label}>Date</Text>
         <Text style={styles.value}>{event.date}</Text>
+        <HolidayNote date={event.date} />
 
         <Text style={styles.label}>Location</Text>
         <Text style={styles.value}>{event.place}</Text>
@@ -146,3 +148,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+

@@ -1,39 +1,38 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
+import React from "react";
+import { Text } from "react-native";
+import { Tabs } from "expo-router";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarActiveTintColor: "#2563EB",
+        tabBarInactiveTintColor: "#64748B",
         headerStyle: {
-          backgroundColor: '#F8FAFC',
+          backgroundColor: "#F8FAFC",
         },
-        headerTintColor: '#0F172A',
-        tabBarActiveTintColor: '#2563EB',
-        tabBarInactiveTintColor: '#64748B',
-        tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          height: 65,
-          paddingBottom: 8,
-          paddingTop: 6,
-        },
-        tabBarLabelStyle: {
-          fontWeight: '600',
+        headerTintColor: "#0F172A",
+        headerTitleStyle: {
+          fontWeight: "700",
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarLabel: 'Home',
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 18 }}>🏠</Text>
+          ),
         }}
       />
       <Tabs.Screen
         name="events/index"
         options={{
-          title: 'Events',
-          tabBarLabel: 'Events',
+          title: "Events",
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 18 }}>📅</Text>
+          ),
         }}
       />
     </Tabs>
