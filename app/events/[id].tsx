@@ -1,7 +1,10 @@
 import React from "react";
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -10,6 +13,7 @@ import { useLocalSearchParams } from "expo-router";
 
 import { useEvents } from "../../src/hooks/useEvents";
 import { HolidayNote } from "../../src/components/HolidayNote";
+import { ChatPanel } from "../../src/components/ChatPanel";
 
 export default function EventDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -65,29 +69,47 @@ export default function EventDetailsScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>{event.title}</Text>
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Text style={styles.heading}>{event.title}</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Date</Text>
-        <Text style={styles.value}>{event.date}</Text>
-        <HolidayNote date={event.date} />
+        <View style={styles.card}>
+          <Text style={styles.label}>Date</Text>
+          <Text style={styles.value}>{event.date}</Text>
+          <HolidayNote date={event.date} />
 
-        <Text style={styles.label}>Location</Text>
-        <Text style={styles.value}>{event.place}</Text>
+          <Text style={styles.label}>Location</Text>
+          <Text style={styles.value}>{event.place}</Text>
 
-        <Text style={styles.label}>Available seats</Text>
-        <Text style={styles.value}>{event.seats}</Text>
-      </View>
-    </View>
+          <Text style={styles.label}>Available seats</Text>
+          <Text style={styles.value}>{event.seats}</Text>
+        </View>
+
+        <ChatPanel eventId={event.id} eventTitle={event.title} />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+    backgroundColor: "#F8FAFC",
+  },
   container: {
     flex: 1,
     padding: 20,
     backgroundColor: "#F8FAFC",
+  },
+  scrollContent: {
+    paddingBottom: 40,
   },
   center: {
     flex: 1,
@@ -148,4 +170,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
